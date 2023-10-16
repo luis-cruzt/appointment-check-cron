@@ -2,7 +2,8 @@ import requests
 from heyoo import WhatsApp
 
 # Function to send WhatsApp message using Heyoo
-def send_whatsapp_message(cid, message):    
+def send_whatsapp_message(cid, message):
+    print('Sending message...');
     messenger.send_message(message, '524432718336')
 
 # Function to check visa wait times and send WhatsApp message if conditions are met
@@ -20,9 +21,11 @@ def check_visa_wait_times(cid):
         wait_times = [int(part) for part in wait_times_str.split()]
 
         # Checking the condition for the first wait time
-        if wait_times and wait_times[0] >= 100:
+        if wait_times and wait_times[0] <= 100:
             message = f"Citas disponibles en {cid_name_mapping[cid]} ({cid}) con un tiempo de espera de menos de 100 días: {wait_times[0]} días"
             send_whatsapp_message(cid, message)
+        else:
+            print('No hay citas disponibles')
 
     except requests.RequestException as e:
         print(f"Error accessing {url}: {e}")
